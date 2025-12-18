@@ -1,3 +1,4 @@
+
 # FastWinLog - 轻量级Windows 事件日志分析工具
 
 <div align="center">
@@ -7,19 +8,34 @@
 ![React](https://img.shields.io/badge/react-18.2-61dafb.svg )
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg )
 
-**Windows 事件日志分析平台 · 智能解析 · AI 辅助分析 · 安全告警分析 · 深度统计**
+**智能解析 · AI 辅助 · 上下文知识库 · 安全告警分析 · 深度统计**
 
-[功能特性](#功能特性) • [快速开始](#快速开始) • [AI 功能](#ai-功能) • [技术架构](#技术架构) • [使用文档](#使用文档)
 
 </div>
+
+- **最新版本**: 1.0.0
+- **更新日期**: 2025/12/18
+- **下载地址**:  [https://github.com/vam876/FastWinLog/releases/tag/v1.0.0](https://github.com/vam876/FastWinLog/releases/tag/v1.0.0)
 
 ---
 
 ## 功能特性
 <img width="1613" height="1008" alt="image" src="https://github.com/user-attachments/assets/3cb39203-838f-4415-9a4d-3f5113477d26" />
 
-
 ### 软件架构
+
+#### 技术栈
+
+**前端**
+- React 18 + TypeScript
+- Vite 5.0 (构建工具)
+- CSS Modules (样式隔离)
+  
+**后端**
+- Python 3.12
+- WebView (桌面容器)
+- libevtx-python (EVTX 解析)
+- SQLite (缓存数据库)
 <img width="1510" height="822" alt="image" src="https://github.com/user-attachments/assets/c44d416e-902e-4587-a73e-694890a3a97e" />
 
 ### 运行逻辑
@@ -40,7 +56,7 @@
 #### 2. 全文搜索引擎
 - **关键词搜索**: 支持全字段模糊匹配
 - **高级搜索**: 多条件组合过滤（EventID、Level、Computer、时间范围等）
-- **实时搜索**: 基于 SQLite FTS5 全文索引，毫秒级响应
+- **实时搜索**: 基于 SQLite FTS5 全文索引，秒级响应
 - **搜索历史**: 自动保存搜索记录
 - **结果高亮**: 关键词高亮显示
 
@@ -70,7 +86,7 @@
 - **AI 对话助手**: 
   - 浮动 AI 面板，随时咨询
   - 流式输出，实时响应
-  - 支持 OpenAI、Azure OpenAI、自定义 API
+  - 支持 OpenAI、Ollama、自定义 API
   - 支持一条或多条日志聚合分析
     
 - **智能日志分析**:
