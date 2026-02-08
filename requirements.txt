@@ -1,0 +1,9 @@
+# Core dependencies
+pywebview>=4.0.0
+pyevtx>=20211101
+
+# Windows-specific
+pywin32>=305; sys_platform == 'win32'
+
+# Build tools
+pyinstaller>=5.0.0
