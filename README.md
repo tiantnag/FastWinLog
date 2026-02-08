@@ -37,11 +37,70 @@
 - WebView (桌面容器)
 - libevtx-python (EVTX 解析)
 - SQLite (缓存数据库)
+
+#### 项目目录结构
+
+```
+FastWinLog/
+├── backend/                      # Python 后端
+│   ├── api/                     # API 接口层
+│   │   ├── main_api.py         # 主 API 路由
+│   │   └── __init__.py
+│   ├── services/                # 业务逻辑层
+│   │   ├── alert_service.py    # 告警服务
+│   │   ├── cache_service.py    # 缓存服务
+│   │   ├── event_service.py    # 事件处理服务
+│   │   ├── log_service.py      # 日志服务
+│   │   ├── search_service.py   # 搜索服务
+│   │   ├── statistics_service.py # 统计服务
+│   │   └── __init__.py
+│   ├── repositories/            # 数据访问层
+│   │   ├── evtx_repository.py  # EVTX 文件访问
+│   │   ├── memory_repository.py # 内存数据访问
+│   │   ├── sqlite_repository.py # SQLite 数据访问
+│   │   └── __init__.py
+│   ├── core/                    # 核心模块
+│   │   ├── alert_baselines.py  # 告警基线
+│   │   ├── alert_store.py      # 告警存储
+│   │   ├── evtx_parser.py      # EVTX 解析器
+│   │   ├── field_descriptions.py # 字段描述
+│   │   ├── log_descriptions.py # 日志描述
+│   │   ├── security_presets.py # 安全预设规则
+│   │   ├── static_field_dict.py # 静态字段字典
+│   │   └── windows_events_database.py # Windows 事件数据库
+│   ├── models/                  # 数据模型
+│   │   ├── event.py            # 事件模型
+│   │   ├── log_file.py         # 日志文件模型
+│   │   ├── pagination.py       # 分页模型
+│   │   └── search_result.py    # 搜索结果模型
+│   ├── utils/                   # 工具类
+│   │   ├── memory_manager.py   # 内存管理
+│   │   ├── progress_tracker.py # 进度追踪
+│   │   └── xml_parser.py       # XML 解析
+│   ├── main.py                  # 后端入口
+│   └── __init__.py
+├── frontend/                    # 编译后的前端资源
+│   ├── assets/                 # 静态资源（JS、CSS、图片）
+│   └── index.html              # 前端入口页面
+├── cache/                       # SQLite 缓存目录
+│   ├── alerts.db               # 告警数据库
+│   └── *.cache.db              # 日志缓存数据库
+├── logs/                        # 示例日志文件目录
+│   ├── Security.evtx           # 安全日志
+│   ├── System.evtx             # 系统日志
+│   ├── Application.evtx        # 应用日志
+│   └── ...                     # 其他日志文件
+├── docs/                        # 文档目录
+│   ├── API.md                  # API 文档
+│   ├── ARCHITECTURE.md         # 架构文档
+│   └── QUICKSTART.md           # 快速开始指南
+├── main.py                      # 应用程序主入口
+├── requirements.txt             # Python 依赖
+├── LICENSE                      # 开源协议
+└── VERSION                      # 版本号
+```
+
 <img width="1510" height="822" alt="image" src="https://github.com/user-attachments/assets/c44d416e-902e-4587-a73e-694890a3a97e" />
-
-### 运行逻辑
-
-<img width="1683" height="550" alt="image" src="https://github.com/user-attachments/assets/f4811ac5-4afe-40f6-b3f1-2800c3eb3933" />
 
 
 ### 核心功能
@@ -156,6 +215,79 @@
 
 ---
 
+## 快速开始
+
+### 环境要求
+
+- **操作系统**: Windows 10/11 或 Windows Server 2016+
+- **Python**: 3.8+ (开发环境需要)
+- **内存**: 建议 4GB 以上
+- **磁盘**: 至少 500MB 可用空间
+
+### 安装方式
+
+#### 方式一：直接下载可执行文件（推荐）
+
+1. 访问 [Releases 页面](https://github.com/vam876/FastWinLog/releases/tag/v1.0.0)
+2. 下载最新版本的 `FastWinLog-v1.0.0.exe`
+3. 双击运行即可使用
+
+#### 方式二：从源码运行
+
+```bash
+# 克隆仓库
+git clone https://github.com/vam876/FastWinLog.git
+cd FastWinLog
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 运行程序
+python main.py
+```
+
+或者直接双击 `start.bat` 启动
+
+### 基本使用
+
+1. **加载日志文件**
+   - 点击"选择文件"按钮
+   - 选择 `.evtx` 格式的 Windows 事件日志文件
+   - 等待解析完成（首次解析会创建缓存）
+
+2. **搜索日志**
+   - 使用顶部搜索框进行关键词搜索
+   - 点击"高级搜索"进行多条件过滤
+   - 支持按 EventID、Level、时间范围等筛选
+
+3. **查看统计**
+   - 切换到"统计"标签页
+   - 查看登录分析、进程监控、账户管理等统计图表
+
+4. **配置告警**
+   - 切换到"告警"标签页
+   - 启用内置规则或创建自定义规则
+   - 点击"扫描"开始检测
+
+5. **AI 分析**（可选）
+   - 在设置中配置 AI API
+   - 选中日志事件后点击 AI 按钮
+   - 获取智能分析和建议
+
+详细使用说明请参考 [快速开始指南](docs/QUICKSTART.md)
+
+---
+
+## 性能指标
+
+- **解析速度**: 14,767 事件/秒（使用 pyevtx）
+- **缓存机制**: SQLite 持久化，重启后秒开
+- **内存优化**: 智能管理，最多保留 2 个文件在内存
+- **搜索响应**: 基于 FTS5 全文索引，毫秒级响应
+- **支持规模**: 单文件支持百万级事件
+
+---
+
 ## AI 功能
 
 ### AI 对话助手
@@ -208,7 +340,101 @@ AI 面板 → 知识库图标 → 管理知识条目
 
 ---
 
+## 开发指南
 
+### 构建可执行文件
+
+```bash
+# 安装 PyInstaller
+pip install pyinstaller
+
+# 使用配置文件构建
+pyinstaller build-windows.spec
+
+# 生成的可执行文件位于 dist/ 目录
+```
+
+### 开发环境设置
+
+```bash
+# 克隆仓库
+git clone https://github.com/vam876/FastWinLog.git
+cd FastWinLog
+
+# 创建虚拟环境（推荐）
+python -m venv venv
+venv\Scripts\activate
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 运行开发服务器
+python main.py
+```
+
+### 技术架构
+
+- **前端**: React 18 + TypeScript + Vite
+- **后端**: Python 3.12 + FastAPI 风格架构
+- **解析引擎**: libevtx-python (pyevtx)
+- **数据库**: SQLite (缓存) + 内存数据库
+- **UI 容器**: pywebview
+
+详细架构说明请参考 [架构文档](docs/ARCHITECTURE.md)
+
+---
+
+## 文档
+
+- [安装指南](INSTALL.md) - 详细的安装步骤和环境配置
+- [快速开始](docs/QUICKSTART.md) - 快速上手指南
+- [API 文档](docs/API.md) - 后端 API 接口说明
+- [架构文档](docs/ARCHITECTURE.md) - 系统架构和设计说明
+
+---
+
+## 贡献指南
+
+欢迎贡献代码、报告问题或提出建议！
+
+### 如何贡献
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 提交 Pull Request
+
+### 报告问题
+
+如果发现 Bug 或有功能建议，请在 [Issues](https://github.com/vam876/FastWinLog/issues) 页面提交。
+
+---
+
+## 许可证
+
+本项目采用 **Apache License 2.0** 开源协议 - 详见 [LICENSE](LICENSE) 文件。
+
+---
+
+## 致谢
+
+- [pywebview](https://pywebview.flowrl.com/) - 提供桌面应用容器
+- [libevtx](https://github.com/libyal/libevtx) - 高性能 EVTX 解析库
+- [React](https://reactjs.org/) - 前端 UI 框架
+- 所有贡献者和使用者
+
+---
+
+## 联系方式
+
+- **项目主页**: [https://github.com/vam876/FastWinLog](https://github.com/vam876/FastWinLog)
+- **问题反馈**: [GitHub Issues](https://github.com/vam876/FastWinLog/issues)
+- **相关项目**: 
+  - [FastWLAT - Web 日志分析工具](https://github.com/vam876/FastWLAT)
+  - [FastLinLog - Linux 日志分析工具](https://github.com/vam876/FastLinLog)
+
+---
 
 <div align="center">
 
